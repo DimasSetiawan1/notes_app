@@ -18,7 +18,7 @@ class DatabaseManager {
     String path = join(documentsDirectory.path, "notes.db");
     return openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: (db, version) async {
         return await db.execute(
           '''
@@ -27,6 +27,7 @@ class DatabaseManager {
           title TEXT,
           content TEXT,
           createAt TEXT,
+          isFavorite INTEGER
         )''',
         );
       },
