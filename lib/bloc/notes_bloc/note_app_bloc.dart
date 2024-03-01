@@ -15,6 +15,7 @@ class NoteAppBloc extends Bloc<NoteAppEvent, NoteAppState> {
     on<NoteAppUpdateEvent>(_updateNoteList);
     on<NoteAppEditEvent>(_editNoteList);
     on<NoteAppDeleteEvent>(_deleteNoteList);
+    on<NoteAppFavoriteEvent>(_isFavorit);
   }
   Future _editNoteList(
       NoteAppEditEvent event, Emitter<NoteAppState> emit) async {
@@ -26,6 +27,7 @@ class NoteAppBloc extends Bloc<NoteAppEvent, NoteAppState> {
         'title': event.title,
         'content': event.content,
         'createAt': DateTime.now().toIso8601String(),
+        'isFavorite': event.isFavorite == false ? 0 : 1
       },
       where: 'id = ?',
       whereArgs: [event.id],
@@ -39,7 +41,32 @@ class NoteAppBloc extends Bloc<NoteAppEvent, NoteAppState> {
     final data = event.notes;
     await db.insert(
       'Notes',
-      data.toJson(),
+      {
+        'id': data.id,
+        'title': data.title,
+        'content': data.content,
+        'createAt': data.createAt.toIso8601String(),
+        'isFavorite': data.isFavorite == false ? 0 : 1
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    await db.close();
+  }
+
+  Future _isFavorit(
+      NoteAppFavoriteEvent event, Emitter<NoteAppState> emit) async {
+    Database db = await _dbManager.database;
+    await db.update(
+      'Notes',
+      {
+        'id': event.id,
+        'title': event.title,
+        'content': event.content,
+        'createAt': event.createAt.toIso8601String(),
+        'isFavorite': event.isFavorite == false ? 0 : 1
+      },
+      where: 'id = ?',
+      whereArgs: [event.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     await db.close();
@@ -54,11 +81,25 @@ class NoteAppBloc extends Bloc<NoteAppEvent, NoteAppState> {
         NoteAppStateUpdate(
           noteList: result
               .map(
-                (e) => NoteModel.fromJson(e),
+                (e) => e['isFavorite'] == 0
+                    ? NoteModel(
+                        id: e['id'],
+                        title: e['title'],
+                        content: e['content'],
+                        createAt: DateTime.parse(e['createAt']),
+                        isFavorite: false)
+                    : NoteModel(
+                        id: e['id'],
+                        title: e['title'],
+                        content: e['content'],
+                        createAt: DateTime.parse(e['createAt']),
+                        isFavorite: true),
               )
               .toList(),
         ),
       );
+    } else {
+      emit(NoteAppStateInitial());
     }
     await db.close();
   }

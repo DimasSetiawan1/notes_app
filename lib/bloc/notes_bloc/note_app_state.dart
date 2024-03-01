@@ -12,6 +12,11 @@ final class NoteAppStateAdd extends NoteAppState {
   NoteAppStateAdd({required this.noteList});
 }
 
+final class NoteAppStateFavorite extends NoteAppState {
+  final bool isFavorite;
+  NoteAppStateFavorite({required this.isFavorite});
+}
+
 final class NoteAppStateUpdate extends NoteAppState {
   final List<NoteModel> noteList;
   NoteAppStateUpdate({required this.noteList});

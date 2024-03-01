@@ -24,6 +24,7 @@ mixin _$NoteModel {
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   DateTime get createAt => throw _privateConstructorUsedError;
+  bool get isFavorite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,12 @@ abstract class $NoteModelCopyWith<$Res> {
   factory $NoteModelCopyWith(NoteModel value, $Res Function(NoteModel) then) =
       _$NoteModelCopyWithImpl<$Res, NoteModel>;
   @useResult
-  $Res call({int id, String title, String content, DateTime createAt});
+  $Res call(
+      {int id,
+      String title,
+      String content,
+      DateTime createAt,
+      bool isFavorite});
 }
 
 /// @nodoc
@@ -56,6 +62,7 @@ class _$NoteModelCopyWithImpl<$Res, $Val extends NoteModel>
     Object? title = null,
     Object? content = null,
     Object? createAt = null,
+    Object? isFavorite = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -74,6 +81,10 @@ class _$NoteModelCopyWithImpl<$Res, $Val extends NoteModel>
           ? _value.createAt
           : createAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -86,7 +97,12 @@ abstract class _$$NoteModelImplCopyWith<$Res>
       __$$NoteModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String content, DateTime createAt});
+  $Res call(
+      {int id,
+      String title,
+      String content,
+      DateTime createAt,
+      bool isFavorite});
 }
 
 /// @nodoc
@@ -104,6 +120,7 @@ class __$$NoteModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? content = null,
     Object? createAt = null,
+    Object? isFavorite = null,
   }) {
     return _then(_$NoteModelImpl(
       id: null == id
@@ -122,6 +139,10 @@ class __$$NoteModelImplCopyWithImpl<$Res>
           ? _value.createAt
           : createAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -133,7 +154,8 @@ class _$NoteModelImpl with DiagnosticableTreeMixin implements _NoteModel {
       {required this.id,
       required this.title,
       required this.content,
-      required this.createAt});
+      required this.createAt,
+      this.isFavorite = false});
 
   factory _$NoteModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$NoteModelImplFromJson(json);
@@ -146,10 +168,13 @@ class _$NoteModelImpl with DiagnosticableTreeMixin implements _NoteModel {
   final String content;
   @override
   final DateTime createAt;
+  @override
+  @JsonKey()
+  final bool isFavorite;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NoteModel(id: $id, title: $title, content: $content, createAt: $createAt)';
+    return 'NoteModel(id: $id, title: $title, content: $content, createAt: $createAt, isFavorite: $isFavorite)';
   }
 
   @override
@@ -160,7 +185,8 @@ class _$NoteModelImpl with DiagnosticableTreeMixin implements _NoteModel {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('createAt', createAt));
+      ..add(DiagnosticsProperty('createAt', createAt))
+      ..add(DiagnosticsProperty('isFavorite', isFavorite));
   }
 
   @override
@@ -172,12 +198,15 @@ class _$NoteModelImpl with DiagnosticableTreeMixin implements _NoteModel {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.createAt, createAt) ||
-                other.createAt == createAt));
+                other.createAt == createAt) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content, createAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, content, createAt, isFavorite);
 
   @JsonKey(ignore: true)
   @override
@@ -198,7 +227,8 @@ abstract class _NoteModel implements NoteModel {
       {required final int id,
       required final String title,
       required final String content,
-      required final DateTime createAt}) = _$NoteModelImpl;
+      required final DateTime createAt,
+      final bool isFavorite}) = _$NoteModelImpl;
 
   factory _NoteModel.fromJson(Map<String, dynamic> json) =
       _$NoteModelImpl.fromJson;
@@ -211,6 +241,8 @@ abstract class _NoteModel implements NoteModel {
   String get content;
   @override
   DateTime get createAt;
+  @override
+  bool get isFavorite;
   @override
   @JsonKey(ignore: true)
   _$$NoteModelImplCopyWith<_$NoteModelImpl> get copyWith =>

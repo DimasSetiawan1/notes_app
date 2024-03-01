@@ -29,6 +29,7 @@ class EditNotePage extends StatelessWidget {
                         id: note.id,
                         title: _controllerTitle.text,
                         content: _controllerContent.text,
+                        isFavorite: note.isFavorite,
                       ),
                     );
                 context.read<NoteAppBloc>().add(NoteAppUpdateEvent());
@@ -55,12 +56,12 @@ class EditNotePage extends StatelessWidget {
           ],
         ),
         body: ListView(
+          padding: const EdgeInsets.all(15),
           children: [
             NoteWidget(
               controllerTitle: _controllerTitle,
               controllerContent: _controllerContent,
             ),
-            const SizedBox(height: 20),
           ],
         ));
   }

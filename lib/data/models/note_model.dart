@@ -11,6 +11,7 @@ class NoteModel with _$NoteModel {
     required String title,
     required String content,
     required DateTime createAt,
+    @Default(false) bool isFavorite
   }) = _NoteModel;
 
   factory NoteModel.fromJson(Map<String, dynamic> json) =>
